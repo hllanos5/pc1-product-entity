@@ -1,0 +1,202 @@
+openapi: 3.0.0
+info:
+  title: Client Microservice
+  description: Client Microservice
+  version: 1.0.0
+servers:
+  - url: http://localhost:8081
+paths:
+  /product:
+    post:
+      tags:
+        - product
+      summary: Add a new product to the database
+      description: Add a new product to the database
+      operationId: createProduct
+      requestBody:
+        description: Create a new product in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "405":
+          description: Invalid input
+    get:
+      tags:
+        - product
+      summary: List all products from the database
+      description: List all product from the database
+      operationId: findAllProduct
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Response'
+        "204":
+          description: No products found
+        "405":
+          description: Invalid input
+  /product/{id}:
+    get:
+      tags:
+        - product
+      summary: Find product by ID
+      description: Returns a single product
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: Id of product to return
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Product not found
+    delete:
+      tags:
+        - product
+      summary: Delete a product
+      description: delete a product
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: Product id to delete
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid product value
+    put:
+      tags:
+        - product
+      summary: Update an existing product
+      description: Update an existing product by Id
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          description: ID of product to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent product in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Customer not found
+        "405":
+          description: Validation exception
+  /product/client-id/{clientId}:
+    get:
+      tags:
+        - product
+      summary: Find client by cliendId
+      description: Returns a single product
+      operationId: getProductByClientId
+      parameters:
+        - name: clientId
+          in: path
+          description: ClientId of Product to return
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Invalid ClientId supplied
+        "404":
+          description: Product not found
+components:
+  schemas:
+    Response:
+      type: object
+      additionalProperties:
+        type: object
+    Product:
+      required:
+        - clientId
+        - type
+        - accountType
+        - activeType
+        - amount
+        - createAt
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          description: type
+          example: "Pasivo" #Pasivo/Activo
+        accountType:
+          type: string
+          description: accountType
+          example: "Ahorro" #Ahorro/CuentaCorriente/PlazoFijo
+        activeType:
+          type: string
+          description: accountType
+          example: "Personal" #Personal/Empresarial/Tarjeta
+        amount:
+          type: double
+          example: 102.20
+        createAt:
+          type: string
+          format: date-time
+          description: Creation date
+          example: "2022-10-27T20:30:00Z"
+          readOnly: true
+  requestBodies:
+    client:
+      description: product object that needs to be added to the database
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
