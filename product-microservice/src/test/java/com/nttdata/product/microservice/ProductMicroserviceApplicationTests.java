@@ -1,4 +1,4 @@
-package com.nttdata.product_microservice;
+package com.nttdata.product.microservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

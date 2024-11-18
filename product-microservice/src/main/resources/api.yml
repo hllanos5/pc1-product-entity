@@ -172,6 +172,8 @@ components:
         id:
           type: string
           readOnly: true
+        clientId:
+          type: string
         type:
           type: string
           description: type
@@ -184,6 +186,11 @@ components:
           type: string
           description: accountType
           example: "Personal" #Personal/Empresarial/Tarjeta
+        accountNumber:
+          type: string
+          description: type
+          pattern: "^[0-9]{9,18}$"
+          example: "Pasivo"
         amount:
           type: double
           example: 102.20
@@ -194,7 +201,7 @@ components:
           example: "2022-10-27T20:30:00Z"
           readOnly: true
   requestBodies:
-    client:
+    product:
       description: product object that needs to be added to the database
       content:
         application/json:
