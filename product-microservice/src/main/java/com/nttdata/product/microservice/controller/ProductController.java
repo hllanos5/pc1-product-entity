@@ -57,9 +57,9 @@ public class ProductController implements ProductApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Map<String, Object>>> updateProduct(String id, Mono<Product> client, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<Map<String, Object>>> updateProduct(String id, Mono<Product> product, ServerWebExchange exchange) {
         Map<String, Object> response = new HashMap<>();
-        return productService.update(id, client.map(productMapper::toDocument))
+        return productService.update(id, product.map(productMapper::toDocument))
                 .map(productMapper::toModel)
                 .map(c -> {
                     response.put("product", c);
