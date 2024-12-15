@@ -6,6 +6,25 @@ info:
 servers:
   - url: http://localhost:8081
 paths:
+  /hello:
+    summary: Saludo
+    description: Devuelve un saludo
+    get:
+      tags:
+        - Saludo
+      summary: Devolver saludo
+      parameters:
+        - name: nombre
+          schema:
+            type: string
+          in: query
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/text:
+              schema:
+                type: string
   /product:
     post:
       tags:
