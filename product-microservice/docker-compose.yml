@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  client-microservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8082
+    networks:
+      - servicio_ntt
+networks:
+  servicio_ntt:
+    external: true
